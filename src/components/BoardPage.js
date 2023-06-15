@@ -18,40 +18,15 @@ export default function BoardPage({ activeChain, account, provider }) {
     const [showAbout, setShowAbout] = useState(false)
     const [success, setSuccess] = useState(false)
 
-    const { contractAddress } = useParams();
-
-    async function completeReferral() {
-        if (!contractAddress || !account) {
-            return
-        }
-        setLoading(true)
-        try {
-            const result = await refer(contractAddress);
-            console.log(result);
-            // Redirect and referral successful.
-
-            // Add notification
-            await sendPush(data.owner, account, redirectUrl)
-
-            // Send to page
-            setSuccess(true)
-        } catch (e) {
-            console.log(e)
-            setError('Error completing referral: ' + getRpcError(e));
-        }
-        finally {
-            setLoading(false)
-        }
-    }
-
+    const { boardId } = useParams();
 
     async function load() {
-        if (!contractAddress || !account) {
+        if (!boardId || !account) {
             return
         }
         setLoading(true)
         try {
-            const res = await getMetadata(contractAddress)
+            const res = await getMetadata(boardId)
             // Unpack the response
             setData({
                 title: res[0],
@@ -109,38 +84,11 @@ export default function BoardPage({ activeChain, account, provider }) {
         setShowAbout(true)
     }
 
-    const cardTitle = <span>Credit your referral&nbsp;<InfoCircleOutlined onClick={openAbout} /></span>
-
     return (
         <div>
-            <Card title={cardTitle}>
-                {title && <p>Title: {title}</p>}
-                {walletError && <p>This is a {APP_NAME} referral page.</p>}
-                {!error && <p>You will be redirected to the following page when you click the button below:</p>}
-                {redirectUrl && <p>Redirect URL: {redirectUrl}</p>}
-                {error && <div className='error-text'>{error}</div>}
-                {!success && <Button
-                    disabled={!redirectUrl || !account || error}
-                    type="primary"
-                    onClick={() => {
-                        completeReferral()
-                    }}
-                >
-                    Continue to page
-                </Button>}
-            </Card>
+            {JSON.stringify(data)}
 
-            <Modal
-                title="About"
-                open={showAbout}
-                onOk={() => setShowAbout(false)}
-                cancelButtonProps={{ style: { display: 'none' } }}
-                onCancel={() => setShowAbout(false)}
-            >
-                <About />
-            </Modal>
-
-            <Modal
+            {/* <Modal
                 title={<span className='success-text'>Referral successful</span>}
                 open={success}
                 okButtonProps={{ style: { display: 'none' } }}
@@ -152,7 +100,7 @@ export default function BoardPage({ activeChain, account, provider }) {
                 <br />
                 <br />
                 <p>Thanks for using {APP_NAME}!</p>
-            </Modal>
+            </Modal> */}
         </div>
     )
 }

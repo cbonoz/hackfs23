@@ -53,6 +53,8 @@ export const DEFAULT_CHAIN = CHAIN_OPTIONS[DEFAULT_CHAIN_ID]
 export const EXAMPLE_FORM = {
   boardName: "My referral marketing campaign",
   logo: "https://airdrops.io/uniswap",
+  companyName: "Uniswap",
+  files: [],
   reward: 0
 };
 

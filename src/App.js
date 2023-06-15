@@ -202,7 +202,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/" element={<OwnerLinks activeChain={activeChain} account={account} />} />
-              <Route path="/board/:boardName" element={<BoardPage activeChain={activeChain} account={account} />} />
+              <Route path="/board/:boardId" element={<BoardPage activeChain={activeChain} account={account} />} />
               <Route path="/create" element={<CreateRequest activeChain={activeChain} account={account} />} />
               <Route path="/history" element={<History activeChain={activeChain} />} />
               <Route path="/about" element={<About />} />

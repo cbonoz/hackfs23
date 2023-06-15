@@ -11,6 +11,11 @@
   margin-top: 150px;
 }
 
+.create-form label {
+  font-weight: 500;
+  margin-top: 20px; 
+}
+
 .white {
   background: white;
 }

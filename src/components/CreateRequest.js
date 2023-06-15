@@ -5,9 +5,10 @@ import { redirectUrl, ipfsUrl, getExplorerUrl, toHexString, isValidUrl } from ".
 import { APP_NAME, CREATE_STEPS, EXAMPLE_FORM } from "../util/constants";
 import { deployContract } from "../contract/linkContract";
 import { createBoard } from "../util/polybase";
+import { FileDrop } from "./FileDrop";
 
 function CreateRequest({ activeChain, account }) {
-  const [data, setData] = useState({ reward: 0, rewardChecked: false })
+  const [data, setData] = useState({ boardTitle: 0, files: [] })
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
@@ -139,50 +140,30 @@ function CreateRequest({ activeChain, account }) {
             <a href="#" onClick={setDemoData}>Set demo data</a>
             <br />
 
-            <h3 className="vertical-margin">Link title:</h3>
+
+            <label className="vertical-margin">Board name</label>
             <Input
-              placeholder="This title will be displayed on the featurechain redirect page."
-              value={data.title}
-              prefix="Title:"
-              onChange={(e) => updateData("title", e.target.value)}
+              placeholder="Name of the feature requestboard"
+              value={data.boardName}
+              prefix="Board name:"
+              onChange={(e) => updateData("boardName", e.target.value)}
             />
             <br />
-            <br />
-            <p>
-              When the link is visited, the visited will be prompted to sign a message with their address and be redirected to the url below.
 
-            </p>
 
+            <label className="vertical-margin">Company or product name:</label>
             <Input
-              placeholder="Redirect URL (e.g. https://example.com)"
-              value={data.redirectUrl}
-              prefix="Redirect URL:"
-              onChange={(e) => updateData("redirectUrl",
-                e.target.value
-              )}
+              placeholder="This company or product name will be displayed on the Board page."
+              value={data.companyName}
+              prefix="Company name:"
+              onChange={(e) => updateData("companyName", e.target.value)}
             />
 
+         
 
-            <br />
-            <br />
-            <Checkbox
-
-              checked={data.rewardChecked}
-              onChange={(e) => updateData("rewardChecked", e.target.checked)} />
-            &nbsp;Reward the referee when the link is used (once per address)
-            <br />
-
-
-            {data.rewardChecked && <div> <Input
-              placeholder="Reward amount (in ETH)"
-              value={data.reward}
-              prefix="Reward:"
-              onChange={(e) => updateData("reward", e.target.value)}
-            />
-              Note you must fund the contract after deployment for the contract to pay out rewards.
-            </div>
-            }
-
+            <label>Add company logo</label>
+            <FileDrop setFiles={(e) => updateData("files", e)} files={data.files}/>
+           
             {/*             
             <TextArea
               aria-label="Description"
