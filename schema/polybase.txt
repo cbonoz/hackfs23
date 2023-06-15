@@ -1,0 +1,57 @@
+@public
+collection Board {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // A mandatory property
+  name: string; 
+
+  // An optional property denoted with ?
+  createdAt: number;
+
+  logoUrl: string;
+
+  // `constructor` is called when a new record is
+  // created, make sure to assign a value to `this.id`
+  constructor (id: string, name: string, logoUrl: string) {
+    // `this.id` must be assigned in the constructor
+    // `this.id` must be unique in collection
+    this.id = id;
+    
+    // You can assign the publicKey of the user who is
+    // creating the record, this can then be used to
+    // control permissions for the record (see below)
+    this.name = name;
+    this.logoUrl = logoUrl;
+  }
+
+  
+}
+
+@public
+collection Ticket {
+  // `id` is unique and required on all collections
+  id: string;
+
+  // A mandatory property
+  name: string; 
+
+  // An optional property denoted with ?
+  createdAt: number;
+
+  boardId: string;
+
+  // `constructor` is called when a new record is
+  // created, make sure to assign a value to `this.id`
+  constructor (id: string, name: string, desc: string, upvotes: number, downvotes: number,) {
+    // `this.id` must be assigned in the constructor
+    // `this.id` must be unique in collection
+    this.id = id;
+    
+    this.name = name;
+    this.createdAt = createdAt;
+    this.
+  }
+
+  
+}
