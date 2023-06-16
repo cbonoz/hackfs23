@@ -3,26 +3,21 @@ collection Board {
   // `id` is unique and required on all collections
   id: string;
 
-  // A mandatory property
   name: string; 
-
-  // An optional property denoted with ?
+  description: string;
+  companyName: string;
+  cid: string; // cid of metadata
   createdAt: number;
-
-  logoUrl: string;
 
   // `constructor` is called when a new record is
   // created, make sure to assign a value to `this.id`
-  constructor (id: string, name: string, logoUrl: string) {
-    // `this.id` must be assigned in the constructor
-    // `this.id` must be unique in collection
+  constructor (id: string, name: string, description: string, companyName: string, cid: string, createdAt: number) {
     this.id = id;
-    
-    // You can assign the publicKey of the user who is
-    // creating the record, this can then be used to
-    // control permissions for the record (see below)
     this.name = name;
-    this.logoUrl = logoUrl;
+    this.description = description;
+    this.companyName = companyName;
+    this.cid = cid;
+    this.createdAt = createdAt;
   }
 
   
@@ -32,25 +27,25 @@ collection Board {
 collection Ticket {
   // `id` is unique and required on all collections
   id: string;
-
-  // A mandatory property
+  boardId: string;
   name: string; 
-
-  // An optional property denoted with ?
+  description: string;
+  author: string;
   createdAt: number;
 
-  boardId: string;
 
   // `constructor` is called when a new record is
   // created, make sure to assign a value to `this.id`
-  constructor (id: string, name: string, desc: string, upvotes: number, downvotes: number,) {
+  constructor (id: string, boardId: string, name: string, description: string, author: string, atusText createdAt: number) {
     // `this.id` must be assigned in the constructor
     // `this.id` must be unique in collection
     this.id = id;
-    
+
+    this.boardId = boardId; 
     this.name = name;
+    this.description = description;
+    this.author = author;
     this.createdAt = createdAt;
-    this.
   }
 
   

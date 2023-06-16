@@ -15,7 +15,7 @@ export const fetchNotifications = async (address) => {
   });
 
   console.log('Notifications: \n', user, notifications);
-  return notifications.filter(n => n.title)
+  return (notifications || []).filter(n => n.title)
 }
 
 

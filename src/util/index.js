@@ -1,6 +1,9 @@
 import { DEFAULT_CHAIN, IPFS_BASE_URL } from "./constants";
 
 export const ipfsUrl = (cid, fileName) => {
+  if (!cid) {
+    return '';
+  }
   // let url = `https://ipfs.io/ipfs/${cid}`;
   let url = `${IPFS_BASE_URL}/${cid}`;
   if (fileName) {
@@ -13,7 +16,7 @@ export const isEmpty = (obj) => {
   return !obj || obj.length === 0;
 };
 
-export const redirectUrl = (address) => `${window.location.origin}/link/${address}`;
+export const getBoardUrl = (boardId) => `${window.location.origin}/board/${boardId}`;
 
 export function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

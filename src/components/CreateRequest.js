@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input, Row, Col, Radio, Steps, Card, Checkbox, Result } from "antd";
 import TextArea from "antd/lib/input/TextArea";
-import { redirectUrl, ipfsUrl, getExplorerUrl, toHexString, isValidUrl } from "../util";
+import { redirectUrl, ipfsUrl, getExplorerUrl, toHexString, isValidUrl, getBoardUrl } from "../util";
 import { APP_NAME, CREATE_STEPS, EXAMPLE_FORM } from "../util/constants";
 import { deployContract } from "../contract/linkContract";
 import { createBoard } from "../util/polybase";
@@ -71,8 +71,9 @@ function CreateRequest({ activeChain, account }) {
     try {
       // 1) deploy base contract with metadata,
 
-      const uploadResult = await uploadFiles(data.files, data);
-      res = {...res, ...uploadResult}
+      const cid = await uploadFiles(data.files, data);
+      res['cid'] = cid;
+
       if (false) {
         const contract = await deployContract(data.title, data.reward, data.redirectUrl);
         // res["contract"] = contract;
@@ -83,15 +84,21 @@ function CreateRequest({ activeChain, account }) {
         res["contractUrl"] = getExplorerUrl(activeChain, res.address);
       }
 
+      res['ipfsUrl'] = ipfsUrl(cid)
+
       // Result rendered after successful doc upload + contract creation.
-      setResult(res);
 
       const polyResult = await createBoard(
-        {
-          id: res.address || new Date().getTime().toString(),
-          title: data.title,
-        }
+        data.boardName,
+        data.boardDescription,
+        data.companyName,
+        cid
       )
+
+      res['board'] = polyResult
+      res['boardUrl'] = getBoardUrl(polyResult.id)
+
+      setResult(res);
 
 
     } catch (e) {
@@ -120,17 +127,17 @@ function CreateRequest({ activeChain, account }) {
   if (result) {
     return <Result
       status="success"
-      title="Created featurechain request!"
-      subTitle="Your featurechain request has been created and is ready to be shared."
+      title="Created Board!"
+      subTitle={"Your board" + data.boardName + " has been created and is ready to be shared."}
       extra={[
         <Button type="secondary" key="contract">
-          <a href={result.contractUrl} target="_blank">
-            View created contract
+          <a href={result.ipfsUrl} target="_blank">
+            View board metadata
           </a>
         </Button>,
         <Button type="primary" key="share">
-          <a href={result.redirectUrl} target="_blank">
-            Share this url
+          <a href={result.boardUrl} target="_blank">
+            Share board url
           </a>
         </Button>
       ]} />
@@ -143,43 +150,44 @@ function CreateRequest({ activeChain, account }) {
       <Row>
         <Col span={16}>
           <Card className="create-form white boxed" title={`Create a new ${APP_NAME} request board`}>
-            <a href="#" onClick={setDemoData}>Set demo data</a>
-            <br />
+            {!result && <div>
+              <a href="#" onClick={setDemoData}>Set demo data</a>
+              <br />
 
 
-            <label className="vertical-margin">Board name</label>
-            <Input
-              placeholder="Name of the feature board"
-              value={data.boardName}
-              prefix="Board name:"
-              onChange={(e) => updateData("boardDescription", e.target.value)}
-            />
-            <br />
+              <label className="vertical-margin">Board name</label>
+              <Input
+                placeholder="Name of the feature board"
+                value={data.boardName}
+                prefix="Board name:"
+                onChange={(e) => updateData("boardDescription", e.target.value)}
+              />
+              <br />
 
-            <label className="vertical-margin">Board description</label>
-            <TextArea
-              placeholder="Description of the feature board"
-              value={data.boardDescription}
-              prefix="Board description:"
-              onChange={(e) => updateData("boardName", e.target.value)}
-            />
+              <label className="vertical-margin">Board description</label>
+              <TextArea
+                placeholder="Description of the feature board"
+                value={data.boardDescription}
+                prefix="Board description:"
+                onChange={(e) => updateData("boardName", e.target.value)}
+              />
 
-            <br/>
-            <label className="vertical-margin">Company or product name:</label>
-            <Input
-              placeholder="This company or product name will be displayed on the Board page."
-              value={data.companyName}
-              prefix="Company name:"
-              onChange={(e) => updateData("companyName", e.target.value)}
-            />
+              <br />
+              <label className="vertical-margin">Company or product name:</label>
+              <Input
+                placeholder="This company or product name will be displayed on the Board page."
+                value={data.companyName}
+                prefix="Company name:"
+                onChange={(e) => updateData("companyName", e.target.value)}
+              />
 
-            <br/>
-            <br/>
+              <br />
+              <br />
 
-            <label>Add company logo (named logo.png)</label>
-            <FileDrop setFiles={(e) => updateData("files", e)} files={data.files}/>
-           
-            {/*             
+              <label>Add company logo (named logo.png)</label>
+              <FileDrop setFiles={(e) => updateData("files", e)} files={data.files} />
+
+              {/*             
             <TextArea
               aria-label="Description"
               onChange={(e) => updateData("description", e.target.value)}
@@ -188,28 +196,27 @@ function CreateRequest({ activeChain, account }) {
               value={data.description}
             /> */}
 
-            <br/>
+              <br />
 
-            <Button
-              type="primary"
-              className="standard-button"
-              onClick={create}
-              size="large"
-              disabled={loading} // || !isValidData}
-              loading={loading}
-            >
-              Create board
-            </Button>
-            {!error && !result && loading && (
-              <span>&nbsp;Note this may take a few moments.</span>
-            )}
-            <br />
-            <br />
+              <Button
+                type="primary"
+                className="standard-button"
+                onClick={create}
+                size="large"
+                disabled={loading} // || !isValidData}
+                loading={loading}
+              >
+                Create board
+              </Button>
+              {!error && !result && loading && (
+                <span>&nbsp;Note this may take a few moments.</span>
+              )}
+              <br />
+              <br />
+            </div>}
             {error && <div>
               <div className="error-text">{error}</div>
-            </div>
-            }
-
+            </div>}
           </Card>
         </Col>
         <Col span={1}></Col>

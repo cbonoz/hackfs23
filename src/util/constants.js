@@ -45,15 +45,15 @@ export const IPFS_BASE_URL = "https://w3s.link/ipfs"
 export const CREATE_STEPS = [
   {
     title: "Fill in fields",
-    description: "Enter required data to register the link."
+    description: "Enter required data to register the board."
   },
   {
-    title: "Create FeatureChain request board",
-    description: "Requires authorizing a FeatureChain 'LinkContract' creation request."
+    title: "Create your FeatureChain request board",
+    description: "Requires authorizing a FeatureChain board creation request."
   },
   {
     title: "Wait for board to be created",
-    description: "Your hosted and board and custom url will be ready for others to use"
+    description: "Your hosted board and custom url will be ready for others to use and submit requests."
   }
 ]
 

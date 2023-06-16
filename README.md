@@ -9,7 +9,7 @@ FeatureChain
 
 FeatureChain is an open source decentralized app that empowers users to create and manage public feature request boards without using centralized platform authorities such as Jira or Trello.
 
-Live demo  (testnet):
+Live demo  (testnet/spheron deployment):
 
 Video: 
 
@@ -28,17 +28,10 @@ FeatureChain currently supports creating new boards with custom images, acceptin
 
 ## Technologies used
 
-FeatureChain 
-
-* 
-
-
-### Storage/Notifications
-
-* Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests.
+* Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests. Stores initial board metadata and logos for dynamic serving without additional user cost.
 * Polybase: Acts as a decentralized web3 Firebase. Used for link dashboards for a given account. With Polybase, FeatureChain doesn't need a hosted backed for owner accounts and instead add and pulls lists of active links for a given accounts from a 'FeatureChain' collection based on the active account wallet address.
 * Push protocol: The owner of a board receives a notification through push protocol when a new request is published to the board.
-* Ceramic: Data interoperability with polybase.
+<!-- * Ceramic: Data interoperability with polybase. -->
 * Spheron: Hosting and CICD of the board platform.
 
 
@@ -49,12 +42,12 @@ FeatureChain
 
 <pre>
     REACT_APP_POLYBASE_NAMESPACE= # Optional custom namespace for polybase deployment/backend.
-    REACT_APP_COVALENT_KEY= # Covalent api key used to power history page.
-    REACT_APP_PUSH_PK= # Optional push protocol wallet private key for connected FeatureChain staging channel.
+    <!-- REACT_APP_COVALENT_KEY= # Covalent api key used to power history page. -->
+    <!-- REACT_APP_PUSH_PK= # Optional push protocol wallet private key for connected FeatureChain staging channel. -->
 </pre>
 
 2. `yarn; yarn start`
-3. 
+
 ### Example featurechain pages (try these out!)
 
 Connect to the appropriate network via metamask and visit the following links.

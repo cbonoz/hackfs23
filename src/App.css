@@ -11,6 +11,12 @@
   margin-top: 150px;
 }
 
+.board-logo {
+  width: 100px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
 .create-form label {
   font-weight: 500;
   margin-top: 20px; 
@@ -19,6 +25,11 @@
 .white {
   background: white;
 }
+
+.bold {
+  font-weight: bold;
+}
+
 .boxed {
   padding: 20px;
   border-radius: 5px;

@@ -38,8 +38,7 @@ function App() {
       setNotifications(data)
     } catch (e) {
       console.log(e)
-    }
-
+    } 
   }
 
   // Request new network on change
@@ -98,7 +97,7 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      getNotifications()
+      // getNotifications()
     }
   }, [account])
 

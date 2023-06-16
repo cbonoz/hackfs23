@@ -1,13 +1,12 @@
-import { Button, Card, Col, Modal, Row, Spin } from 'antd';
+import { Button, Card, Col, Empty, Input, Modal, Row, Spin } from 'antd';
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { getMetadata, getRedirectUrl, getTitle, refer } from '../contract/linkContract';
-import { getRpcError, isEmpty } from '../util';
+import { abbreviate, getDateStringFromTimestamp, getRpcError, ipfsUrl, isEmpty } from '../util';
 import { APP_NAME } from '../util/constants';
 import CsvDownloadButton from 'react-json-to-csv'
 
-import { sendPush } from '../util/notifications';
-import { About } from './About';
+import TextArea from 'antd/es/input/TextArea';
+import { createTicket, getBoard, getTicketsForBoard } from '../util/polybase';
 
 // This page should page a contractAddress path parameter enable a web3 transaction to credit a user with a link referral, 
 // and then redirect to url stored in state
@@ -15,13 +14,26 @@ export default function BoardPage({ activeChain, account, provider }) {
     const [loading, setLoading] = React.useState(false)
     const [error, setError] = useState()
     const [data, setData] = useState({})
+    const [ticketName, setTicketName] = useState()
+    const [ticketDescription, setTicketDescription] = useState()
     const [showAbout, setShowAbout] = useState(false)
     const [success, setSuccess] = useState(false)
 
+    const hasBoard = !isEmpty(data)
     const { boardId } = useParams();
 
-    async function createTicket() {
-
+    async function submitTicket() {
+        setLoading(true)
+        try {
+            const res = await createTicket(boardId, ticketName, ticketDescription, account)
+            console.log('created ticket', res)
+        } catch (e) {
+            const err = getRpcError(e)
+            console.error('Error creating ticket', e)
+            setError("Could not create ticket: " + err)
+        } finally {
+            setLoading(false)
+        }
     }
 
     async function load() {
@@ -30,13 +42,12 @@ export default function BoardPage({ activeChain, account, provider }) {
         }
         setLoading(true)
         try {
-            const res = await getMetadata(boardId)
+            const res = await getBoard(boardId)
             // Unpack the response
-            setData({
-                boardName: res[0],
-                companyName: res[1],
-                logo: res[2],
-            })
+            const board = res[0].data
+            const tickets = await getTicketsForBoard(board.id)
+            console.log('data', board, tickets)
+            setData({ board, tickets })
         } catch (e) {
             console.log(e)
             let message = getRpcError(e)
@@ -44,7 +55,7 @@ export default function BoardPage({ activeChain, account, provider }) {
                 message = 'You may be connected to the wrong network. Please check selected network and metamask and try again.'
             }
 
-            setError('Error reading link data: ' + message)
+            setError('Board information could not be found: ' + message)
         }
         finally {
             setLoading(false)
@@ -71,25 +82,58 @@ export default function BoardPage({ activeChain, account, provider }) {
     }
 
     const { tickets, board } = data
+    const logoUrl = ipfsUrl(board?.cid, 'logo.png')
 
     const hasTickets = !isEmpty(tickets);
 
+    const sortedTickets = (tickets || []).sort((a, b) => {
+        return a.data.createdAt > b.data.createdAt
+    })
+
     return (
         <div>
-            {JSON.stringify(data)}
-
+            {/* {JSON.stringify(data)} */}
             {error && <div>
                 <span className='error-text'>{error}</span></div>}
 
-            <Row>
+            {logoUrl &&
+                <div>
+                    <img src={logoUrl} className='board-logo' />
+                    <h1>{board.name}</h1>
+                    <h3>{board.description}</h3>
+                    <h5>Board first created:{getDateStringFromTimestamp(board.createdAt, false)}</h5>
+                </div>}
+
+            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                 <Col span={12}>
                     {/* Create new ticket */}
                     <Card className="create-form white boxed" title={`Create a new ${APP_NAME} ticket`}>
-                        <form onSubmit={createTicket}>
+                        <form>
                             <h1>Create ticket</h1>
 
-                            
 
+                            <Input
+                                value={ticketName}
+                                onChange={e => setTicketName(e.target.value)}
+                                placeholder="Add ticket name (required)"
+                                prefix="Ticket name" />
+
+                            <br />
+
+                            <TextArea
+                                value={ticketDescription}
+                                onChange={e => setTicketDescription(e.target.value)}
+                                placeholder='Add ticket description (required)'
+                                prefix="Ticket description" />
+
+                            <br />
+
+                            <Button type="primary"
+                                onClick={submitTicket}
+                                disabled={!ticketName || !ticketDescription || loading}
+                                loading={loading}>
+                                Submit ticket
+                            </Button>
 
                         </form>
 
@@ -98,20 +142,22 @@ export default function BoardPage({ activeChain, account, provider }) {
                 <Col span={12}>
                     {hasTickets && <div>
                         {/* Existing tickets */}
-                        {tickets.map((ticket, i) => {
-                            return <Card key={i} className="ticket white boxed" title={`Ticket ${i + 1}`}>
-                                <h1>{ticket.title}</h1>
-                                <p>{ticket.description}</p>
-                                <p>Created by: {ticket.creator}</p>
-                                <p>Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
-                                <p>Expires at: {new Date(ticket.expiresAt).toLocaleString()}</p>
+                        {sortedTickets.map((record, i) => {
+                            const ticket = record.data
+                            return <Card key={i} className="ticket white boxed" title={ticket.name}>
+                                <h5>{ticket.description}</h5>
+                                <p>Created at: {getDateStringFromTimestamp(ticket.createdAt, true)}</p>
+                                <p>Author: {abbreviate(ticket.author)}</p>
                             </Card>
                         })}
-                        <CsvDownloadButton data={tickets} />
+                        <br/>
+                        <CsvDownloadButton data={tickets.map(t => t.data)} />
                     </div>}
                     {!hasTickets && <div>
-                        <p>
-                            No feature tickets yet. Create one now!
+                        <p className='bold'>
+                            <Empty
+                                description="No feature tickets yet. Create one now!"
+                            />
                         </p></div>}
 
                 </Col>
