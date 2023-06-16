@@ -28,11 +28,11 @@ FeatureChain currently supports creating new boards with custom images, acceptin
 
 ## Technologies used
 
-* Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests. Stores initial board metadata and logos for dynamic serving without additional user cost.
+* Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests. Stores initial board metadata and logos for dynamic serving without additional user cost. IPFS is also used with Spheron to host the web frontend.
 * Polybase: Acts as a decentralized web3 Firebase. Used for link dashboards for a given account. With Polybase, FeatureChain doesn't need a hosted backed for owner accounts and instead add and pulls lists of active links for a given accounts from a 'FeatureChain' collection based on the active account wallet address.
 * Push protocol: The owner of a board receives a notification through push protocol when a new request is published to the board.
 <!-- * Ceramic: Data interoperability with polybase. -->
-* Spheron: Hosting and CICD of the board platform.
+* Spheron: Hosting and CICD of the FeatureChain platform.
 
 ### How to run
 
