@@ -4,12 +4,21 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
+import { ConfigProvider } from "antd";
 
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#5483E9',
+          },
+        }}
+      >
+        <App />
+      </ConfigProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")

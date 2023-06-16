@@ -24,6 +24,24 @@ export const ipfsUrl = (cid, fileName) => {
     return url;
   };
 
+  export async function uploadFiles(files, metadata) {
+    const newFiles = [...files]
+    if (metadata) {
+      const blob = new Blob([JSON.stringify(metadata)], { type: 'application/json' })
+      const metaFile = new File([blob], 'metadata.json')
+      newFiles.push(metaFile)
+    }
+    const client = makeStorageClient();
+    const cid = await client.put(newFiles);
+    console.log("stored files with cid:", cid);
+    return cid;
+  }
+  
+  export const getMetadataJson = (baseUrl) => {
+    const url = `${baseUrl}/metadata.json`;
+    return axios.get(url);
+  };
+  
 
 export async function storeFiles(files) {
   console.log('store', files)

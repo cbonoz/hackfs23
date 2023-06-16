@@ -21,8 +21,12 @@ export const About = () => {
 
             {/* TODO: add more info here */}
 
-            <p>Create your own ${APP_NAME} board:&nbsp;<br/><br/>
-                <Button type="primary" onClick={() => navigate("/create")}>Create link</Button>
+            <p>
+               {APP_NAME} is an open source project. View github <a href="github.com/cbonoz/hackfs23" target="_blank">here</a>.
+            </p>
+
+            <p>Create your own {APP_NAME} board&nbsp;<br/><br/>
+                <Button type="primary" onClick={() => navigate("/create")}>Create board</Button>
             </p>
         </div>
     );

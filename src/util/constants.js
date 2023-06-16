@@ -1,7 +1,7 @@
 export const COVALENT_KEY = process.env.REACT_APP_COVALENT_KEY; // covalent api key
 
 export const APP_NAME = "FeatureChain";
-export const APP_DESC = "Decentralized Powered Feature request boards";
+export const APP_DESC = "Decentralized, Web3 Powered Feature request boards";
 export const APP_ICON_URL = 'https://i.ibb.co/rsBPB9g/link.png';
 
 
@@ -23,23 +23,6 @@ export const CHAIN_OPTIONS = {
   //   url: "https://polygonscan.com/",
   //   id: 137,
   // },
-  534353:
-  {
-    // https://guide.scroll.io/user-guide/setup
-    name: 'Scroll Alpha Testnet',
-    rpcUrl: 'https://alpha-rpc.scroll.io/l2',
-    symbol: 'ETH',
-    url:"https://blockscout.scroll.io/",
-    id: 534353
-  },
-  // https://gnosisfaucet.com/
-  10200: {
-    name: 'Gnosis (Chaido)',
-    symbol: 'XDAI',
-    rpcUrl: 'https://rpc.chiadochain.net',
-    url: 'https://blockscout.com/gnosis/chiado/',
-    id: 10200
-  },
   80001: {
     name: "Mumbai Testnet",
     url: "https://mumbai.polygonscan.com/",
@@ -47,15 +30,14 @@ export const CHAIN_OPTIONS = {
   },
 };
 
-export const DEFAULT_CHAIN_ID = 534353;
+export const DEFAULT_CHAIN_ID = 80001;
 export const DEFAULT_CHAIN = CHAIN_OPTIONS[DEFAULT_CHAIN_ID]
 
 export const EXAMPLE_FORM = {
-  boardName: "My referral marketing campaign",
-  logo: "https://airdrops.io/uniswap",
+  boardName: "Uniswap community feature requests",
+  boardDescription: "Submit requests for the Uniswap product. The most submitted ideas will be exported and prioritized",
   companyName: "Uniswap",
   files: [],
-  reward: 0
 };
 
 export const IPFS_BASE_URL = "https://w3s.link/ipfs"

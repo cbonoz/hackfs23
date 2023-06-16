@@ -6,8 +6,8 @@ import { APP_DESC } from "../util/constants";
 import { ArrowRightOutlined, CheckCircleTwoTone } from "@ant-design/icons";
 
 const CHECKLIST_ITEMS = [
-  "Secure, Decentralized Click Tracking on L2 Networks",
-  "Hassle-Free Referral Tracking with Zero-Knowledge Proofs",
+  "A free feature request page generator built on web3",
+  "Collect and analyze your feedback without relying on apps like Trello and Jira",
   "No vendor agreements required",
 ];
 

@@ -27,6 +27,7 @@ const thumbInner = {
   display: "flex",
   minWidth: 0,
   overflow: "hidden",
+  marginLeft: 4
 };
 
 const img = {
@@ -39,6 +40,10 @@ export function FileDrop({ files, setFiles }) {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
       console.log("files", acceptedFiles);
+      // if (!acceptedFiles.length !== 1) {
+        // alert('Please upload one file')
+        // return
+      // }
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -51,6 +56,7 @@ export function FileDrop({ files, setFiles }) {
 
   const thumbs = files.map((file) => (
     <div style={thumb} key={file.name}>
+      <img src={file.preview}/>
       <div style={thumbInner}>
         <p>
           <b>{file.name}</b>
@@ -82,7 +88,7 @@ export function FileDrop({ files, setFiles }) {
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
       <br />
-      <b>Files to upload:</b>
+      <b>Preview:</b>
       <aside style={thumbsContainer}>{thumbs}</aside>
     </section>
   );

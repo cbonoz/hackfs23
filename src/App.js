@@ -122,12 +122,16 @@ function App() {
       label: "Create board",
       onClick: () => navigate("/create"),
     },
-    {
-      key: '/history',
-      label: "Link History",
-      onClick: () => navigate("/history"),
-    },
-
+    // {
+    //   key: '/history',
+    //   label: "Link History",
+    //   onClick: () => navigate("/history"),
+    // },
+ {
+      key: '/about',
+      label: "About",
+      onClick: () => navigate("/about"),
+ },
     {
       key: '/ownerlinks',
       label:

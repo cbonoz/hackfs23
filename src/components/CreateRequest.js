@@ -6,9 +6,10 @@ import { APP_NAME, CREATE_STEPS, EXAMPLE_FORM } from "../util/constants";
 import { deployContract } from "../contract/linkContract";
 import { createBoard } from "../util/polybase";
 import { FileDrop } from "./FileDrop";
+import { uploadFiles } from "../util/stor";
 
 function CreateRequest({ activeChain, account }) {
-  const [data, setData] = useState({ boardTitle: 0, files: [] })
+  const [data, setData] = useState({ files: [] })
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState();
@@ -20,12 +21,19 @@ function CreateRequest({ activeChain, account }) {
     setData({ ...data, [key]: value });
   };
 
-  const isValid = (data) => {
-    return (
-      data.title && isValidUrl(data.redirectUrl)
-    );
+  const getValidationError = (data) => {
+    if (!data.boardName) {
+      return 'Board name is required.'
+    } else if (!data.boardDescription) {
+      return 'Board description is required.'
+    } else if (!data.companyName) {
+      return 'Company name is required.'
+    } else if (!data.files) {
+      return 'Please add a company logo for use on the board'
+    }
+    return null
   };
-  const isValidData = isValid(data);
+  const validationError = getValidationError(data);
 
   const create = async () => {
     setError(undefined);
@@ -37,7 +45,7 @@ function CreateRequest({ activeChain, account }) {
     const targetChainId = toHexString(activeChain.id)
 
     // Make sure current network is correct based on current metamask network.
-    if (targetChainId !== currentNetwork) {
+    if (false && targetChainId !== currentNetwork) {
       setError(
         `Please switch to the ${activeChain.name} (${targetChainId}) network in metamask to create this featurechain request.`
       );
@@ -49,10 +57,8 @@ function CreateRequest({ activeChain, account }) {
     }
 
 
-    if (!isValidData) {
-      setError(
-        "Please provide a featurechain page title and valid redirect URL."
-      );
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
@@ -64,7 +70,10 @@ function CreateRequest({ activeChain, account }) {
 
     try {
       // 1) deploy base contract with metadata,
-      if (true) {
+
+      const uploadResult = await uploadFiles(data.files, data);
+      res = {...res, ...uploadResult}
+      if (false) {
         const contract = await deployContract(data.title, data.reward, data.redirectUrl);
         // res["contract"] = contract;
         res["address"] = contract.address
@@ -81,16 +90,12 @@ function CreateRequest({ activeChain, account }) {
         {
           id: res.address || new Date().getTime().toString(),
           title: data.title,
-          redirectUrl: data.redirectUrl,
-          reward: data.reward,
-          owner: account,
-          chainId: activeChain.id
         }
       )
 
 
     } catch (e) {
-      console.error("error creating featurechain", e);
+      console.error("error creating feature board", e);
       setError(e.message || e.toString())
     } finally {
       setLoading(false);
@@ -100,7 +105,8 @@ function CreateRequest({ activeChain, account }) {
   const getStep = () => {
     if (!!result) {
       return 2;
-    } else if (isValidData) {
+    } else if (!validationError) {
+      // Form is valid.
       return 1;
     }
     return 0;
@@ -136,21 +142,29 @@ function CreateRequest({ activeChain, account }) {
     <div>
       <Row>
         <Col span={16}>
-          <Card className="create-form white boxed" title={`Create a new ${APP_NAME} board`}>
+          <Card className="create-form white boxed" title={`Create a new ${APP_NAME} request board`}>
             <a href="#" onClick={setDemoData}>Set demo data</a>
             <br />
 
 
             <label className="vertical-margin">Board name</label>
             <Input
-              placeholder="Name of the feature requestboard"
+              placeholder="Name of the feature board"
               value={data.boardName}
               prefix="Board name:"
-              onChange={(e) => updateData("boardName", e.target.value)}
+              onChange={(e) => updateData("boardDescription", e.target.value)}
             />
             <br />
 
+            <label className="vertical-margin">Board description</label>
+            <TextArea
+              placeholder="Description of the feature board"
+              value={data.boardDescription}
+              prefix="Board description:"
+              onChange={(e) => updateData("boardName", e.target.value)}
+            />
 
+            <br/>
             <label className="vertical-margin">Company or product name:</label>
             <Input
               placeholder="This company or product name will be displayed on the Board page."
@@ -159,9 +173,10 @@ function CreateRequest({ activeChain, account }) {
               onChange={(e) => updateData("companyName", e.target.value)}
             />
 
-         
+            <br/>
+            <br/>
 
-            <label>Add company logo</label>
+            <label>Add company logo (named logo.png)</label>
             <FileDrop setFiles={(e) => updateData("files", e)} files={data.files}/>
            
             {/*             
@@ -207,6 +222,7 @@ function CreateRequest({ activeChain, account }) {
               items={CREATE_STEPS}
               current={getStep()}
             />
+
           </div>
         </Col>
       </Row>
