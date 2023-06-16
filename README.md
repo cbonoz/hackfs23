@@ -9,7 +9,7 @@ FeatureChain
 
 FeatureChain is an open source decentralized app that empowers users to create and manage public feature request boards without using centralized platform authorities such as Jira or Trello.
 
-Live demo  (testnet/spheron deployment):
+Live demo  (testnet/spheron deployment): https://bafybeiectanzynjk4nkiaixyi4cjewbenaqeyeo45lz6elriinpjepkrua.ipfs.sphn.link/
 
 Video: 
 
@@ -33,8 +33,6 @@ FeatureChain currently supports creating new boards with custom images, acceptin
 * Push protocol: The owner of a board receives a notification through push protocol when a new request is published to the board.
 <!-- * Ceramic: Data interoperability with polybase. -->
 * Spheron: Hosting and CICD of the board platform.
-
-
 
 ### How to run
 
