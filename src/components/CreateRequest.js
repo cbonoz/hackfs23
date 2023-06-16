@@ -142,8 +142,11 @@ function CreateRequest({ activeChain, account }) {
         </Button>
       ]} />
   }
-
-
+  if (error) {
+  return <div>
+    <div className="error-text">{error}</div>
+  </div>
+  }
 
   return (
     <div>
@@ -184,7 +187,7 @@ function CreateRequest({ activeChain, account }) {
               <br />
               <br />
 
-              <label>Add company logo (named logo.png)</label>
+              <label>Add company logo as logo.png. Recommended: 128x128.</label>
               <FileDrop setFiles={(e) => updateData("files", e)} files={data.files} />
 
               {/*             
@@ -214,9 +217,7 @@ function CreateRequest({ activeChain, account }) {
               <br />
               <br />
             </div>}
-            {error && <div>
-              <div className="error-text">{error}</div>
-            </div>}
+         
           </Card>
         </Col>
         <Col span={1}></Col>

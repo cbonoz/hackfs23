@@ -87,7 +87,7 @@ export default function BoardPage({ activeChain, account, provider }) {
     const hasTickets = !isEmpty(tickets);
 
     const sortedTickets = (tickets || []).sort((a, b) => {
-        return a.data.createdAt > b.data.createdAt
+        return a.data.createdAt < b.data.createdAt
     })
 
     return (
@@ -101,16 +101,16 @@ export default function BoardPage({ activeChain, account, provider }) {
                     <img src={logoUrl} className='board-logo' />
                     <h1>{board.name}</h1>
                     <h3>{board.description}</h3>
-                    <h5>Board first created:{getDateStringFromTimestamp(board.createdAt, false)}</h5>
+                    <h5>Board created:{getDateStringFromTimestamp(board.createdAt, false)}</h5>
                 </div>}
+
+                <br/>
 
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                 <Col span={12}>
                     {/* Create new ticket */}
-                    <Card className="create-form white boxed" title={`Create a new ${APP_NAME} ticket`}>
+                    <Card className="create-form white boxed" title={`Create a new ${board?.name || APP_NAME} ticket`}>
                         <form>
-                            <h1>Create ticket</h1>
-
 
                             <Input
                                 value={ticketName}
@@ -144,7 +144,8 @@ export default function BoardPage({ activeChain, account, provider }) {
                         {/* Existing tickets */}
                         {sortedTickets.map((record, i) => {
                             const ticket = record.data
-                            return <Card key={i} className="ticket white boxed" title={ticket.name}>
+                            const title = `#${i+1}: ${ticket.name}`
+                            return <Card key={i} className="ticket-card white boxed" title={title}>
                                 <h5>{ticket.description}</h5>
                                 <p>Created at: {getDateStringFromTimestamp(ticket.createdAt, true)}</p>
                                 <p>Author: {abbreviate(ticket.author)}</p>

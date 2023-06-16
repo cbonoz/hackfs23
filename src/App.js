@@ -114,7 +114,7 @@ function App() {
         className="header-logo pointer"
         onClick={() => navigate("/")}
       />,
-      showOnBoardPage: true,
+      showOnBoardPage: false,
     },
     {
       key: '/create',
@@ -130,6 +130,7 @@ function App() {
       key: '/about',
       label: "About",
       onClick: () => navigate("/about"),
+      showOnBoardPage: true
  },
     {
       key: '/ownerlinks',

@@ -35,7 +35,7 @@ export const DEFAULT_CHAIN = CHAIN_OPTIONS[DEFAULT_CHAIN_ID]
 
 export const EXAMPLE_FORM = {
   boardName: "Uniswap community feature requests",
-  boardDescription: "Submit requests for the Uniswap product. The most submitted ideas will be exported and prioritized",
+  boardDescription: "Submit requests for the Uniswap product. The most submitted ideas will be exported and prioritized.",
   companyName: "Uniswap",
   files: [],
 };
