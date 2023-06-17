@@ -35,6 +35,7 @@ export default function BoardPage({ activeChain, account, provider }) {
             } catch (e) {
                 console.error('push error', e)
             }
+            load();
         } catch (e) {
             const err = getRpcError(e)
             console.error('Error creating ticket', e)
@@ -97,10 +98,6 @@ export default function BoardPage({ activeChain, account, provider }) {
 
     }
 
-    const openAbout = () => {
-        setShowAbout(true)
-    }
-
     const logoUrl = ipfsUrl(board?.cid, 'logo.png')
 
     const hasTickets = !isEmpty(tickets);
@@ -134,7 +131,7 @@ export default function BoardPage({ activeChain, account, provider }) {
                                 value={ticketName}
                                 onChange={e => setTicketName(e.target.value)}
                                 placeholder="Add ticket name (required)"
-                                prefix="Ticket name" />
+                                prefix="Ticket name:" />
 
                             <br />
 
