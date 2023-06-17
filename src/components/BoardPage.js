@@ -7,6 +7,7 @@ import CsvDownloadButton from 'react-json-to-csv'
 
 import TextArea from 'antd/es/input/TextArea';
 import { createTicket, getBoard, getTicketsForBoard } from '../util/polybase';
+import { sendPush } from '../util/notifications';
 
 // This page should page a contractAddress path parameter enable a web3 transaction to credit a user with a link referral, 
 // and then redirect to url stored in state
@@ -22,11 +23,18 @@ export default function BoardPage({ activeChain, account, provider }) {
     const hasBoard = !isEmpty(data)
     const { boardId } = useParams();
 
+    const { tickets, board } = data
+
     async function submitTicket() {
         setLoading(true)
         try {
             const res = await createTicket(boardId, ticketName, ticketDescription, account)
             console.log('created ticket', res)
+            try {
+                await sendPush(account, boardId, board.name, ticketName)
+            } catch (e) {
+                console.error('push error', e)
+            }
         } catch (e) {
             const err = getRpcError(e)
             console.error('Error creating ticket', e)
@@ -81,7 +89,6 @@ export default function BoardPage({ activeChain, account, provider }) {
         setShowAbout(true)
     }
 
-    const { tickets, board } = data
     const logoUrl = ipfsUrl(board?.cid, 'logo.png')
 
     const hasTickets = !isEmpty(tickets);
@@ -157,7 +164,7 @@ export default function BoardPage({ activeChain, account, provider }) {
                     {!hasTickets && <div>
                         <p className='bold'>
                             <Empty
-                                description="No feature tickets yet. Create one now!"
+                                description="No feature requests yet. Create one now!"
                             />
                         </p></div>}
 

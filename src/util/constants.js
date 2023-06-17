@@ -2,7 +2,7 @@ export const COVALENT_KEY = process.env.REACT_APP_COVALENT_KEY; // covalent api 
 
 export const APP_NAME = "FeatureChain";
 export const APP_DESC = "Decentralized, Web3 Powered Feature request boards";
-export const APP_ICON_URL = 'https://i.ibb.co/rsBPB9g/link.png';
+export const APP_ICON_URL = 'https://i.ibb.co/0hPMQKb/favicon.png'
 
 
 // https://polybase.xyz/docs/read

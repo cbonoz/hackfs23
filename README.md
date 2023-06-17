@@ -41,16 +41,12 @@ FeatureChain currently supports creating new boards with custom images, acceptin
 <pre>
     REACT_APP_POLYBASE_NAMESPACE= # Optional custom namespace for polybase deployment/backend.
     <!-- REACT_APP_COVALENT_KEY= # Covalent api key used to power history page. -->
-    <!-- REACT_APP_PUSH_PK= # Optional push protocol wallet private key for connected FeatureChain staging channel. -->
+    REACT_APP_PUSH_PK= # Optional push protocol wallet private key for connected FeatureChain staging channel.
 </pre>
 
 2. `yarn; yarn start`
 
-### Example featurechain pages (try these out!)
-
-Connect to the appropriate network via metamask and visit the following links.
-
-You'll be redirected to the set url (in this case google.com) with a tracking transaction record appending to the FeatureChain contract.
+### Example FeatureBoard pages (try these out!)
 
 
 ### Screenshots

@@ -97,7 +97,7 @@ function App() {
 
   useEffect(() => {
     if (account) {
-      // getNotifications()
+      getNotifications()
     }
   }, [account])
 
@@ -214,7 +214,7 @@ function App() {
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          {APP_NAME} &copy;{new Date().getFullYear()} - {APP_DESC} -{" "}
+          <a href="/" target="_blank" >{APP_NAME}</a> &copy;{new Date().getFullYear()} - {APP_DESC} -{" "}
           <a href="#" onClick={(e) => {
             e.preventDefault()
             navigate("/about");

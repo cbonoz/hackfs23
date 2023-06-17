@@ -16,12 +16,11 @@ const ticketCollection = db.collection("Ticket");
 
 // https://polybase.xyz/docs/read
 export async function createBoard(
-  boardName, boardDescription, companyName, cid
+  owner, boardName, boardDescription, companyName, cid
 ) {
   // .create(args) args array is defined by the constructor fn
   const record = await boardCollection.create([
-    uuidv4(),
-    boardName, boardDescription, companyName, cid, new Date().getTime()
+    uuidv4(), boardName, boardDescription, companyName, cid, owner, new Date().getTime()
   ]);
   const { data } = record
 
@@ -34,8 +33,7 @@ export async function createTicket(
 ) {
   // .create(args) args array is defined by the constructor fn
   const record = await ticketCollection.create([
-    uuidv4(),
-    boardId, ticketName, ticketDescription, author, new Date().getTime()
+    uuidv4(), boardId, ticketName, ticketDescription, author, new Date().getTime()
   ]);
   const {data} = record
   return data;

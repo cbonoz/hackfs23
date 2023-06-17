@@ -1,7 +1,7 @@
 import { APP_ICON_URL, APP_NAME, PUSH_NOTIFICATIONS_ENV, PUSH_PK } from "./constants";
 import * as ethers from "ethers";
 import * as PushAPI from "@pushprotocol/restapi"
-
+import { abbreviate } from ".";
 
 
 const createUser = address => `eip155:5:${address}`
@@ -20,15 +20,15 @@ export const fetchNotifications = async (address) => {
 
 
 // https://docs.push.org/developers/developer-guides/sending-notifications/using-epns-sdk-gasless
-export const sendPush = async (ownerAddress, referee, redirectUrl) => {
+export const sendPush = async (ownerAddress, boardId, boardName, ticketName) => {
   if (!PUSH_PK) {
     console.error('Skipping notification - No push private key found')
     return;
   }
 
   const notification = {
-    title: `${APP_NAME}: Successful referral`,
-    body: `${referee} has been successfully referred to ${redirectUrl}`,
+    title: `${abbreviate(boardName, 25)}`,
+    body: `New request: ${abbreviate(ticketName, 100)}`
   }
   const key = PUSH_PK;
   // Step 1: Convert the private key to a Uint8Array
@@ -51,6 +51,7 @@ export const sendPush = async (ownerAddress, referee, redirectUrl) => {
       payload: {
         ...notification,
         cta: '',
+        boardId,
         img: APP_ICON_URL,
       },
       channel: createUser(ownerAddress),

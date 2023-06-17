@@ -89,6 +89,7 @@ function CreateRequest({ activeChain, account }) {
       // Result rendered after successful doc upload + contract creation.
 
       const polyResult = await createBoard(
+        account || '',
         data.boardName,
         data.boardDescription,
         data.companyName,

@@ -85,7 +85,7 @@ export function FileDrop({ files, setFiles }) {
     <section>
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag 'n' drop a logo here, or click to select file</p>
       </div>
       <br />
       <b>Preview:</b>

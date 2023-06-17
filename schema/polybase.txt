@@ -7,16 +7,18 @@ collection Board {
   description: string;
   companyName: string;
   cid: string; // cid of metadata
+  owner: string;
   createdAt: number;
 
   // `constructor` is called when a new record is
   // created, make sure to assign a value to `this.id`
-  constructor (id: string, name: string, description: string, companyName: string, cid: string, createdAt: number) {
+  constructor (id: string, name: string, description: string, companyName: string, cid: string, owner: string, createdAt: number) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.companyName = companyName;
     this.cid = cid;
+    this.owner = owner; 
     this.createdAt = createdAt;
   }
 
@@ -36,7 +38,7 @@ collection Ticket {
 
   // `constructor` is called when a new record is
   // created, make sure to assign a value to `this.id`
-  constructor (id: string, boardId: string, name: string, description: string, author: string, atusText createdAt: number) {
+  constructor (id: string, boardId: string, name: string, description: string, author: string, createdAt: number) {
     // `this.id` must be assigned in the constructor
     // `this.id` must be unique in collection
     this.id = id;
