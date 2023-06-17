@@ -16,7 +16,7 @@ export const About = () => {
             <br/>
             <br/>
             <p>
-                {APP_NAME} is a {APP_DESC} for businesses and individuals. Built as a prototype for the HackFS 2023 hackathon.
+                {APP_NAME} is a {APP_DESC} for businesses and individuals. Connect your wallet and track requests made to your boards. Built as a prototype for the HackFS 2023 hackathon.
             </p>
 
             {/* TODO: add more info here */}
