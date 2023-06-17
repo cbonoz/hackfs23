@@ -30,8 +30,8 @@ FeatureChain currently supports creating product request boards with custom imag
 
 * Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests. Stores initial board metadata and logos for dynamic serving without additional user cost. IPFS is also used with Spheron to host the web frontend.
 * Polybase: Acts as a decentralized web3 Firebase. Used for ticket and board storage queries and persistance. With Polybase, FeatureChain doesn't need a hosted backed for owner accounts and instead add and pulls lists of active boards for a given account from a 'FeatureChain' collection based on the active account wallet address.
-* Push protocol: The owner of a board receives a notification through push protocol when a new request is published to a board owned by their account.
-* Spheron: Hosting and CICD on every new update of the FeatureChain platform main branch. Saved using Filecoin.
+* Push protocol: The owner of a board (based on their logged in address) receives a notification through push protocol when a new request is published to a board owned by their account. Board owners don't need to monitor the boards directly and instead can reference these notifications.
+* Spheron: Live demo was enabled by Spheron/IPFS. Hosting and CICD on every new update of the FeatureChain platform main branch. Saved using Filecoin.
 
 ### How to run
 
