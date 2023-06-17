@@ -1,6 +1,6 @@
 <br/>
 <p align='center'>
-    <img src="https://github.com/cbonoz/hackfs23/blob/main/img/logo.png" width=400 />
+    <img src="https://i.ibb.co/k362FYR/logo-trans.png" width=400 />
 </p>
 <br/>
 
