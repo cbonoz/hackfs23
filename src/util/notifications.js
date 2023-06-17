@@ -27,7 +27,7 @@ export const sendPush = async (ownerAddress, boardId, boardName, ticketName) => 
   }
 
   const notification = {
-    title: `${abbreviate(boardName, 25)}`,
+    title: `${abbreviate(boardName, 40)}`,
     body: `New request: ${abbreviate(ticketName, 100)}`
   }
   const key = PUSH_PK;

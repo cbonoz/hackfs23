@@ -1,6 +1,6 @@
 <br/>
 <p align='center'>
-    <img src="./img/logo.png" width=400 />
+    <img src="https://i.ibb.co/k362FYR/logo-trans.png" width=400 />
 </p>
 <br/>
 
@@ -23,36 +23,65 @@ On the other hand, Jira is a comprehensive project management tool favored by de
 
 Additionally, both Trello and Jira suffer from a centralized approach to feature request management. They rely on a central authority or project administrators to review and prioritize requests, which can lead to delays and lack of transparency. A decentralized app, built on blockchain technology, can introduce decentralized governance and transparency. Users can directly participate in the decision-making process, with voting mechanisms ensuring that popular feature requests are given higher priority. 
 
-FeatureChain currently supports creating new boards with custom images, accepting public requests and votes, and having them managed for free using decentralized tooling.
+FeatureChain currently supports creating product request boards with custom images, saving public requests, notifying board owners on new submissions, and having the boards managed for free using decentralized tooling.
 
 
 ## Technologies used
 
 * Filecoin and Web3.storage: Used for file storage, image, and artifact storage for board metadata and requests. Stores initial board metadata and logos for dynamic serving without additional user cost. IPFS is also used with Spheron to host the web frontend.
-* Polybase: Acts as a decentralized web3 Firebase. Used for link dashboards for a given account. With Polybase, FeatureChain doesn't need a hosted backed for owner accounts and instead add and pulls lists of active links for a given accounts from a 'FeatureChain' collection based on the active account wallet address.
-* Push protocol: The owner of a board receives a notification through push protocol when a new request is published to the board.
-<!-- * Ceramic: Data interoperability with polybase. -->
-* Spheron: Hosting and CICD of the FeatureChain platform.
+* Polybase: Acts as a decentralized web3 Firebase. Used for ticket and board storage queries and persistance. With Polybase, FeatureChain doesn't need a hosted backed for owner accounts and instead add and pulls lists of active boards for a given account from a 'FeatureChain' collection based on the active account wallet address.
+* Push protocol: The owner of a board receives a notification through push protocol when a new request is published to a board owned by their account.
+* Spheron: Hosting and CICD on every new update of the FeatureChain platform main branch. Saved using Filecoin.
 
 ### How to run
 
 1. Define the following env variables (either locally or in a created `.env` file). These are configured with test values on the demo site.
 
 <pre>
-    REACT_APP_POLYBASE_NAMESPACE= # Optional custom namespace for polybase deployment/backend.
-    <!-- REACT_APP_COVALENT_KEY= # Covalent api key used to power history page. -->
-    REACT_APP_PUSH_PK= # Optional push protocol wallet private key for connected FeatureChain staging channel.
+    REACT_APP_POLYBASE_NAMESPACE= # your custom namespace for polybase deployment/backend.
+    REACT_APP_STORAGE_KEY = # your web3.storage storage key.
+    REACT_APP_PUSH_PK= # (Optional) push protocol wallet private key for connected FeatureChain staging channel.
 </pre>
 
 2. `yarn; yarn start`
 
-### Example FeatureBoard pages (try these out!)
+### Example FeatureChain pages (try these out!)
 
+https://bafybeiectanzynjk4nkiaixyi4cjewbenaqeyeo45lz6elriinpjepkrua.ipfs.sphn.link/board/6c4bfc5d-6545-4bcb-8eb7-e259cec6d61d
 
 ### Screenshots
 
 #### Home
 <img src="./img/home.png" width=800 />
+
+#### Creating a new board
+<img src="./img/create1.png" width=800 />
+
+#### Filled information
+<img src="./img/create2.png" width=800 />
+
+#### Success
+<img src="./img/done.png" width=800 />
+
+#### IPFS manages board metadata after creation and hosts board images.
+<img src="./img/metadata.png" width=800 />
+
+<img src="./img/ipfs.png" width=800 />
+
+#### Board page
+<img src="./img/board.png" width=800 />
+
+#### About page
+<img src="./img/about.png" width=800 />
+
+#### Spheron hosting / successful build
+<img src="./img/spheron.png" width=800 />
+
+#### Polybase schema
+<img src="./img/schema.png" width=800 />
+
+#### Stored boards and tickets on polybase
+<img src="./img/data.png" width=800 />
 
 ### Useful links
 
@@ -60,14 +89,6 @@ Event page:  https://ethglobal.com/events/hackfs2023/home
 Sponsors: https://ethglobal.com/events/hackfs2023/prizes
 
 ### Potential Future Work:
-
-Governance-as-a-Service: Expand decentralized governance capabilities to offer Governance-as-a-Service to other decentralized applications.
-
-Enhanced Collaboration Features: Improve collaboration tools within the platform, including real-time chat, task assignment, and project management functionalities.
-
-Integration with Web3 Ecosystem: Explore integration with other Web3 technologies like decentralized identity solutions or decentralized storage networks.
-
-### Revenue Opportunities:
 
 Premium Feature Tiers: Introduce premium feature tiers with advanced functionality, custom integrations, and dedicated support for power users and businesses.
 

@@ -52,6 +52,9 @@ export default function BoardPage({ activeChain, account, provider }) {
         try {
             const res = await getBoard(boardId)
             // Unpack the response
+            if (!res || !res[0]) {
+                throw new Error('Board not found')
+            }
             const board = res[0].data
             const tickets = await getTicketsForBoard(board.id)
             console.log('data', board, tickets)
@@ -61,9 +64,11 @@ export default function BoardPage({ activeChain, account, provider }) {
             let message = getRpcError(e)
             if (message.indexOf('call revert') !== -1) {
                 message = 'You may be connected to the wrong network. Please check selected network and metamask and try again.'
+            } else if (message.indexOf('not found') !== -1) {
+                message = 'Board not found. Please check the URL and try again.'
             }
 
-            setError('Board information could not be found: ' + message)
+            setError('Error getting board: ' + message)
         }
         finally {
             setLoading(false)
@@ -85,6 +90,13 @@ export default function BoardPage({ activeChain, account, provider }) {
         </div>
     }
 
+    if (error) {
+        return <Card title={`${APP_NAME}: Board Error`}>
+            <span className='error-text'>{error}</span>
+        </Card>
+
+    }
+
     const openAbout = () => {
         setShowAbout(true)
     }
@@ -100,8 +112,7 @@ export default function BoardPage({ activeChain, account, provider }) {
     return (
         <div>
             {/* {JSON.stringify(data)} */}
-            {error && <div>
-                <span className='error-text'>{error}</span></div>}
+
 
             {logoUrl &&
                 <div>
@@ -111,7 +122,7 @@ export default function BoardPage({ activeChain, account, provider }) {
                     <h5>Board created:{getDateStringFromTimestamp(board.createdAt, false)}</h5>
                 </div>}
 
-                <br/>
+            <br />
 
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                 <Col span={12}>
@@ -151,14 +162,14 @@ export default function BoardPage({ activeChain, account, provider }) {
                         {/* Existing tickets */}
                         {sortedTickets.map((record, i) => {
                             const ticket = record.data
-                            const title = `#${i+1}: ${ticket.name}`
+                            const title = `#${i + 1}: ${ticket.name}`
                             return <Card key={i} className="ticket-card white boxed" title={title}>
                                 <h5>{ticket.description}</h5>
                                 <p>Created at: {getDateStringFromTimestamp(ticket.createdAt, true)}</p>
                                 <p>Author: {abbreviate(ticket.author)}</p>
                             </Card>
                         })}
-                        <br/>
+                        <br />
                         <CsvDownloadButton data={tickets.map(t => t.data)} />
                     </div>}
                     {!hasTickets && <div>
