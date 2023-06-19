@@ -164,7 +164,7 @@ function CreateRequest({ activeChain, account }) {
                 placeholder="Name of the feature board"
                 value={data.boardName}
                 prefix="Board name:"
-                onChange={(e) => updateData("boardDescription", e.target.value)}
+                onChange={(e) => updateData("boardName", e.target.value)}
               />
               <br />
 
@@ -173,7 +173,7 @@ function CreateRequest({ activeChain, account }) {
                 placeholder="Description of the feature board"
                 value={data.boardDescription}
                 prefix="Board description:"
-                onChange={(e) => updateData("boardName", e.target.value)}
+                onChange={(e) => updateData("boardDescription", e.target.value)}
               />
 
               <br />
